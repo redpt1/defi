@@ -1,0 +1,126 @@
+{
+	"compiler": {
+		"version": "0.8.7+commit.e28d00a7"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_target",
+						"type": "address"
+					},
+					{
+						"internalType": "uint8",
+						"name": "_Age",
+						"type": "uint8"
+					},
+					{
+						"internalType": "string",
+						"name": "_Gender",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "_Nickname",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "_Introduction",
+						"type": "string"
+					}
+				],
+				"name": "ChangeUserInfo",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_target",
+						"type": "address"
+					}
+				],
+				"name": "GetUserInfo",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint8",
+								"name": "age",
+								"type": "uint8"
+							},
+							{
+								"internalType": "string",
+								"name": "gender",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "nickname",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "introduction",
+								"type": "string"
+							}
+						],
+						"internalType": "struct UserInfo.User",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/UserInfo.sol": "UserInfo"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/UserInfo.sol": {
+			"keccak256": "0xb7899d66a6436df50e015cadc508c1e9a90aee358cfbf49df438924101e731d7",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://ce21de4317e023d3a1ae42f4c836a251f29793c5760783c8fc425941142f40ef",
+				"dweb:/ipfs/QmSYZZ52gGy25mh8Zbxqt3KVPA2ehpSm8zXDPZWZXPHe4P"
+			]
+		}
+	},
+	"version": 1
+}
