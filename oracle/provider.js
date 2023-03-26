@@ -20,7 +20,6 @@ function update(from,price) {
 }
 
 
-
 var max = 55
 var min = 45
 Math.random = function(seed){return ('0.'+Math.sin(seed).toString().substr(6));}
@@ -32,6 +31,6 @@ let timerId = setInterval(() => {
     result = Math.floor(result)
     update("0xE80d399c6A73E94f9D6d10D2d3e2fCFBD0B78eDD",result)
     console.log(result)
-}, 30000);
+}, 10000);
 
 

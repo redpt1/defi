@@ -11,7 +11,7 @@ var contract = new web3.eth.Contract(JSON.parse(data),'0x4819ec52B9A74020EcDc6A2
 function update(from,price) {
     
 
-    contract.methods.updateFTKPrice(price).send({from:from},function(err,result){
+    contract.methods.updateSTKPrice(price).send({from:from},function(err,result){
         if (err) {
             console.log(err)
         }
@@ -23,7 +23,7 @@ function update(from,price) {
 
 var max = 105
 var min = 95
-Math.random = function(seed){return ('0.'+Math.sin(seed).toString().substr(6));}
+Math.random = function(seed){return ('0.'+Math.cos(seed).toString().substr(6));} //改为cos函数
 var result 
 var i = 1
 
@@ -32,6 +32,6 @@ let timerId = setInterval(() => {
     result = Math.floor(result)
     update("0xE80d399c6A73E94f9D6d10D2d3e2fCFBD0B78eDD",result)
     console.log(result)
-}, 30000);
+}, 10000);
 
 
