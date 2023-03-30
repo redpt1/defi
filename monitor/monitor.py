@@ -45,8 +45,8 @@ def handle_event(event,symbol):
     return (bn,blocktime,symbol,price,reg_time)
 
 async def log_loop(symbol,event_filter, poll_interval, queue):
-    for event in event_filter.get_all_entries():
-            await queue.put(handle_event(event,symbol))             
+    # for event in event_filter.get_all_entries():
+    #         await queue.put(handle_event(event,symbol))             
     while True:
         for event in event_filter.get_new_entries():
             await queue.put(handle_event(event,symbol))
@@ -86,8 +86,8 @@ def main():
     queue0 = asyncio.Queue()
     queue1 = asyncio.Queue()
     
-    event_filter1 = ftk.events.UpdateFTKPrice.createFilter(fromBlock=w3.eth.blockNumber-4)
-    event_filter2 = stk.events.UpdateSTKPrice.createFilter(fromBlock=w3.eth.blockNumber-4)
+    event_filter1 = ftk.events.UpdateFTKPrice.createFilter(fromBlock=w3.eth.blockNumber)
+    event_filter2 = stk.events.UpdateSTKPrice.createFilter(fromBlock=w3.eth.blockNumber)
     loop = asyncio.get_event_loop()
     try:
         loop.run_until_complete(
