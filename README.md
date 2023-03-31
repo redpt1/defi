@@ -48,8 +48,30 @@
 
 
 
+- [ ] 监控币价Uniswap, Sushiswap,  Binance
+
+
+
+
+
 
 
 tracking 不同平台 汇率 + fees
 
-算回报率
+
+
+[Entities | SushiSwap](https://docs.sushi.com/docs/Developers/Subgraphs/Exchange/Entities)
+
+[Query Examples | Uniswap](https://docs.uniswap.org/api/subgraph/guides/examples#token-daily-aggregated)
+
+[Exchange Information – Binance API Documentation (binance-docs.github.io)](https://binance-docs.github.io/apidocs/spot/en/#exchange-information)
+
+
+
+
+
+Uniswap和SushiSwap的交易费用（每笔交易0.3%）；
+
+以太坊网络交易费用（撰写本文时每笔交易大约4美元）；
+
+Uniswap市场和SushiSwap市场的滑点； 
