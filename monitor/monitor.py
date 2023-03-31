@@ -12,12 +12,12 @@ w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:7545'))
 account_address = "0xE80d399c6A73E94f9D6d10D2d3e2fCFBD0B78eDD"
 filePath1 = "oracle.abi"
 abi1 = open(filePath1, encoding='utf-8').read()
-contract_addr1 = '0x16d74cBebCa74D7e08f250B438c543556e6B03B6'
+contract_addr1 = '0x34eC3536dA51Ebc2cB65C2CEbFF4421Ba4eE2e06'
 ftk = w3.eth.contract(address=contract_addr1, abi=abi1)
 
 filePath2 = "oracle-2.abi"
 abi2 = open(filePath2, encoding='utf-8').read()
-contract_addr2 = '0x4819ec52B9A74020EcDc6A212d7F9b428127A33b'
+contract_addr2 = '0x5B5723155D8Ec4bBCb17aC162b4775e3Dfca06F2'
 stk = w3.eth.contract(address=contract_addr2, abi=abi2)
 
 
@@ -29,7 +29,7 @@ plt.rcParams['toolbar'] = 'None'
 plt.style.use('ggplot')
 plt.gcf().canvas.manager.set_window_title('Monitor')
 
-def handle_event(event,symbol):
+def handle_event(event):
    # currentDateAndTime = datetime.now()
     log = json.loads(Web3.toJSON(event))
     price = log["args"]["_price"]
@@ -42,14 +42,14 @@ def handle_event(event,symbol):
     reg_time = time.strftime("%m-%d %H:%M:%S", reg_time)
     
     
-    return (bn,blocktime,symbol,price,reg_time)
+    return (bn,blocktime,price,reg_time)
 
-async def log_loop(symbol,event_filter, poll_interval, queue):
+async def log_loop(event_filter, poll_interval, queue):
     # for event in event_filter.get_all_entries():
     #         await queue.put(handle_event(event,symbol))             
     while True:
         for event in event_filter.get_new_entries():
-            await queue.put(handle_event(event,symbol))
+            await queue.put(handle_event(event))
 
         await asyncio.sleep(poll_interval)
 
@@ -66,8 +66,8 @@ async def drawer(queue0, queue1):
         if len(data1) > 6:
             data1.pop(0)
         plt.clf()
-        plt.plot([x[4] for x in data0],[x[3] for x in data0],color="red",marker='*', label="FTK/ETH")
-        plt.plot([x[4] for x in data1],[x[3] for x in data1],color="blue",marker='*', label="STK/ETH")
+        plt.plot([x[3] for x in data0],[x[2] for x in data0],color="red",marker='*', label="A-MTK/ETH")
+        plt.plot([x[3] for x in data1],[x[2] for x in data1],color="blue",marker='*', label="B-MTK/ETH")
         plt.xticks(rotation=45)
         
         plt.legend()
@@ -86,13 +86,13 @@ def main():
     queue0 = asyncio.Queue()
     queue1 = asyncio.Queue()
     
-    event_filter1 = ftk.events.UpdateFTKPrice.createFilter(fromBlock=w3.eth.blockNumber)
-    event_filter2 = stk.events.UpdateSTKPrice.createFilter(fromBlock=w3.eth.blockNumber)
+    event_filter1 = ftk.events.UpdateFPrice.createFilter(fromBlock=w3.eth.blockNumber)
+    event_filter2 = stk.events.UpdateSPrice.createFilter(fromBlock=w3.eth.blockNumber)
     loop = asyncio.get_event_loop()
     try:
         loop.run_until_complete(
             asyncio.gather(
-                log_loop("FTK",event_filter1, 1,queue0),log_loop("STK",event_filter2,1,queue1),drawer(queue0,queue1)))
+                log_loop(event_filter1, 1,queue0),log_loop(event_filter2,1,queue1),drawer(queue0,queue1)))
     finally:
         # close loop to free up system resources
         loop.close()

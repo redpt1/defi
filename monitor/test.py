@@ -1,53 +1,34 @@
+from web3 import Web3
+import json
+import time
 import asyncio
-import random
 import matplotlib.pyplot as plt
+import math
+# HTTPProvider:
+w3 = Web3(Web3.HTTPProvider('http://127.0.0.1:7545'))
+ 
+# WebsocketProvider:
+#w3 = Web3(Web3.WebsocketProvider('wss://127.0.0.1:7545'))
+account_address = "0xE80d399c6A73E94f9D6d10D2d3e2fCFBD0B78eDD"
+filePath1 = "oracle.abi"
+abi1 = open(filePath1, encoding='utf-8').read()
+contract_addr1 = '0x34eC3536dA51Ebc2cB65C2CEbFF4421Ba4eE2e06'
+ftk = w3.eth.contract(address=contract_addr1, abi=abi1)
 
-plt.rcParams['toolbar'] = 'None'
-async def produce(queue, num):
-    while True:
-        await asyncio.sleep(random.randint(0, 3))
-        item = random.randint(0, 10)
-        await queue.put((num, item))
-
-
-async def consume(queue0, queue1):
-    data0 = []
-    data1 = []
-    while True:
-        item = await asyncio.gather(queue0.get(), queue1.get())
-        data0.append(item[0])
-        data1.append(item[1])
-        if len(data0) > 10:
-            data0.pop(0)
-        if len(data1) > 10:
-            data1.pop(0)
-        plt.clf()
-        plt.plot([x[1] for x in data0], label="Producer 0")
-        plt.plot([x[1] for x in data1], label="Producer 1")
-        plt.legend()
-        plt.title("Live Data")
-        plt.xlabel("Time")
-        plt.ylabel("Value")
-        plt.grid(True)
-        plt.pause(0.1)
-        queue0.task_done()
-        queue1.task_done()
+filePath2 = "oracle-2.abi"
+abi2 = open(filePath2, encoding='utf-8').read()
+contract_addr2 = '0x5B5723155D8Ec4bBCb17aC162b4775e3Dfca06F2'
+stk = w3.eth.contract(address=contract_addr2, abi=abi2)
 
 
-async def main():
-    queue0 = asyncio.Queue()
-    queue1 = asyncio.Queue()
 
-    producers = [
-        asyncio.create_task(produce(queue0, 0)),
-        asyncio.create_task(produce(queue1, 1)),
-    ]
-    consumer = asyncio.create_task(consume(queue0, queue1))
-
-    await asyncio.gather(*producers)
-    await asyncio.gather(consumer)
+platform1 = "0xb5Db319d2F46289abe4BAd820951A51F53919Eee" 
+p_abi_path1 = "p1.abi"
+p1_abi = open(p_abi_path1, encoding='utf-8').read()
+p1 = w3.eth.contract(address=platform1, abi=p1_abi)
 
 
-if __name__ == "__main__":
-    plt.ion()
-    asyncio.run(main())
+value = int(math.pow(10, 16)) # 出价
+
+balance = w3.eth.get_balance(account_address)
+print(balance)

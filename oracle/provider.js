@@ -5,13 +5,13 @@ var fs = require("fs");
 var data = fs.readFileSync("oracle.abi", "utf-8");
 
 
-var contract = new web3.eth.Contract(JSON.parse(data),'0x16d74cBebCa74D7e08f250B438c543556e6B03B6');
+var contract = new web3.eth.Contract(JSON.parse(data),'0x34eC3536dA51Ebc2cB65C2CEbFF4421Ba4eE2e06');
 
 
 function update(from,price) {
     
 
-    contract.methods.updateFTKPrice(price).send({from:from},function(err,result){
+    contract.methods.updateFPrice(price).send({from:from},function(err,result){
         if (err) {
             console.log(err)
         }
@@ -20,8 +20,8 @@ function update(from,price) {
 }
 
 
-var max = 55
-var min = 45
+var max = 1040
+var min = 990
 Math.random = function(seed){return ('0.'+Math.sin(seed).toString().substr(6));}
 var result 
 var i = 1
