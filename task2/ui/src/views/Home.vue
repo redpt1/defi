@@ -113,6 +113,60 @@
 
         </el-table>
       </el-tab-pane>
+
+      <el-tab-pane name="Arbitrage">
+        <span slot="label">
+          Uniswap & Sushi
+        </span>
+
+        <el-table
+          :data="tableData4"
+          height="650"
+          stripe
+          style="width: 90% ;margin: auto"
+          empty-text="please wait..."
+
+        >
+
+          <el-table-column
+            prop="symbol"
+            label="Token Name"
+            align="center"
+            sortable
+          >
+          </el-table-column>
+
+          <el-table-column
+            prop="uniprice"
+            label="Uniswap price(eth)"
+            align="center"
+            sortable
+          >
+          </el-table-column>
+
+          <el-table-column
+            prop="sushiprice"
+            label="Sushiswap price(eth)"
+            align="center"
+            sortable
+          >
+          </el-table-column>
+
+          <el-table-column
+            prop="rate"
+            label="Up/Sp Rate (%)"
+            align="center"
+          >
+          </el-table-column>
+
+
+        </el-table>
+
+      </el-tab-pane>
+
+
+
+
     </el-tabs>
 
   </div>
@@ -126,6 +180,7 @@ export default {
       tableData1: [],
       tableData2: [],
       tableData3: [],
+      tableData4: [],
       activeTab: 'uni'
     }
   },
@@ -139,8 +194,10 @@ export default {
       }
       else if(tab.name === 'sushi'){
         this.getFromSushi()
-      }else{
+      }else if(tab.name === 'binance'){
         this.getFromBinance()
+      }else{
+        this.comparePrice()
       }
     },
     getFromUni(){
@@ -160,8 +217,8 @@ export default {
         .then((result) => {
 
             for (const tokeninfo of result.data.data.tokens) {
-              var address = tokeninfo.id
-              var name = tokeninfo.symbol
+              let address = tokeninfo.id;
+              let name = tokeninfo.symbol;
               tokeninfo.derivedETH = tokeninfo.derivedETH.match(/^\d+(?:\.\d{0,10})?/)
 
               if(name === '')
@@ -194,8 +251,8 @@ export default {
       })
         .then((result) => {
             for (const tokeninfo of result.data.data.tokens) {
-              var address = tokeninfo.id
-              var name = tokeninfo.symbol
+              let address = tokeninfo.id
+              let name = tokeninfo.symbol
               tokeninfo.derivedETH = tokeninfo.derivedETH.match(/^\d+(?:\.\d{0,10})?/)
 
               if(name === '')
@@ -214,7 +271,7 @@ export default {
       this.$axios.get('https://data.binance.com/api/v3/ticker/price')
         .then((result) => {
             for (const tokeninfo of result.data) {
-              var name = tokeninfo.symbol
+              let name = tokeninfo.symbol
               if(name === '')
                 tokeninfo.symbol = 'Null'
               this.tableData3.push(tokeninfo)
@@ -226,7 +283,85 @@ export default {
           console.error(error)
         })
     },
+    comparePrice(){
+      let uniMap = new Map();
+      let sushiMap = new Map();
+      this.tableData4 = []
+      let url1 = 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3'
+      let url2 = 'https://api.thegraph.com/subgraphs/name/sushiswap/exchange'
+      let data1 = {
+        query: `
+  {
+    tokens(orderBy: volumeUSD, orderDirection: desc){
+          id
+          symbol
+          derivedETH
+    }
+  }
+  `
+      }
+      let data2 = {
+        query: `
+  {
+    tokens(orderBy: volumeUSD, orderDirection: desc){
+          id
+          symbol
+          derivedETH
+    }
+  }
+  `
+      }
 
+      return this.$axios.post(url1,data1)
+        .then((result) => {
+            for (const tokeninfo of result.data.data.tokens) {
+              let address = tokeninfo.id;
+              let name = tokeninfo.symbol;
+              tokeninfo.derivedETH = tokeninfo.derivedETH.match(/^\d+(?:\.\d{0,10})?/)
+
+              if(name === '')
+                tokeninfo.symbol = 'Null'
+              uniMap.set(name,tokeninfo.derivedETH)
+            }
+            return this.$axios.post(url2,data2)
+          }
+        )
+        .then((result) => {
+            for (const tokeninfo of result.data.data.tokens) {
+              let address = tokeninfo.id
+              let name = tokeninfo.symbol
+              tokeninfo.derivedETH = tokeninfo.derivedETH.match(/^\d+(?:\.\d{0,10})?/)
+
+              if(name === '')
+                tokeninfo.symbol = 'Null'
+              sushiMap.set(name,tokeninfo.derivedETH)
+            }
+          for(let [key, value] of uniMap) {
+            if (sushiMap.has(key)) {
+              let obj = {
+                symbol: key,
+                uniprice: value,
+                sushiprice: sushiMap.get(key),
+                rate: (parseFloat(value) / parseFloat(sushiMap.get(key)) * 100) . toFixed(5),
+              }
+              this.tableData4.push(obj)
+            }
+          }
+
+
+          console.log(this.tableData4)
+
+
+
+          }
+        )
+        .catch((error) => {
+          console.error(error)
+        })
+
+
+
+    }
 
 
 

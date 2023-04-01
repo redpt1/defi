@@ -69,8 +69,30 @@ tracking 不同平台 汇率 + fees
 
 
 
+
+
+
+
 Uniswap和SushiSwap的交易费用（每笔交易0.3%）；
 
 以太坊网络交易费用（撰写本文时每笔交易大约4美元）；
 
 Uniswap市场和SushiSwap市场的滑点； 
+
+
+
+[kaymen99/uniswap-sushiswap-arbitrage: Smart contract for performing arbitrage between Uniswap and Sushiswap (github.com)](https://github.com/kaymen99/uniswap-sushiswap-arbitrage)
+
+
+
+要判断一个用户是否在Uniswap和SushiSwap上进行套利，需要分析他们的交易历史记录和地址。以下是一些可能的方法：
+
+1. 检查用户的交易历史记录：您可以使用Etherscan或其他以太坊区块链浏览器来检查用户的交易历史记录，并查看他们在Uniswap和SushiSwap上的交易情况。如果他们在两个交易所之间频繁进行转账和交易，则可能存在套利的可能性。
+2. 检查用户的交易对：您可以查看用户在Uniswap和SushiSwap上交易的交易对，如果他们经常在相同的交易对之间进行转账和交易，则也可能存在套利的可能性。
+3. 检查用户的地址：您可以使用其他工具或API来检查用户的地址，并查看他们是否同时使用Uniswap和SushiSwap。如果他们在两个交易所之间频繁转移资金，则也可能存在套利的可能性。
+
+需要注意的是，用户可能会在两个交易所之间进行正常的交易和转移，而不是进行套利操作。因此，需要进一步分析和确认是否真的存在套利行为。
+
+https://coinarbitragebot.com/ 套利监控网站
+
+[一文教你用 Node.js 在 Uniswap 和 SushiSwap 之间套利_陀螺科技 (tuoluo.cn)](https://www.tuoluo.cn/article/detail-10033273.html)
