@@ -95,6 +95,7 @@ def make_deal(p1,first_price,p2,second_price):
     print("Buy price in eth: " + str(1/first_price)) 
     print("Sell price in eth: " + str(1/second_price))
     print("Rate: "+str(second_price/first_price))
+    print("Tx hash: "+receipt2["transactionHash"])
     print("BlockNumber: " + str(receipt2["blockNumber"]))
 
 def handle_deal(first_price,second_price):

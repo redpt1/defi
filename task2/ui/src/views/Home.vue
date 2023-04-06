@@ -17,10 +17,10 @@
 
         <el-table
           :data="tableData1"
-          height="650"
+          height="500px"
 
           stripe
-          style="width: 90% ;margin: auto"
+          style="width: 90%;height: 90%; margin: auto"
           empty-text="please wait..."
         >
 
@@ -54,7 +54,7 @@
 
         <el-table
           :data="tableData2"
-          height="650"
+          height="500px"
 
           stripe
           style="width: 90% ;margin: auto"
@@ -90,7 +90,7 @@
 
         <el-table
           :data="tableData3"
-          height="650"
+          height="500px"
 
           stripe
           style="width: 90% ;margin: auto"
@@ -121,7 +121,7 @@
 
         <el-table
           :data="tableData4"
-          height="650"
+          height="500px"
           stripe
           style="width: 90% ;margin: auto"
           empty-text="please wait..."
