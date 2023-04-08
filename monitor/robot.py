@@ -83,7 +83,7 @@ def make_deal(p1,first_price,p2,second_price):
     
     tx_hash2 = p2.functions.sellTokens(int(exp_get_tk)).transact({'from': my_address})
     receipt2 = w3.eth.waitForTransactionReceipt(tx_hash2)
-    receipt2 = json.loads(Web3.toJSON(receipt1))
+    receipt2 = json.loads(Web3.toJSON(receipt2))
     gas_fee2 = int(receipt2["gasUsed"]) * gas_price / wei
     
     balance = w3.eth.get_balance(my_address)
